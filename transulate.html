@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      
+        div{
+           
+            height:300px;
+        }
+
+        #container{
+            display:flex;
+            height:600px;
+           
+            
+        }
+        #container>div{
+          border:2px solid black;
+      height:500px;
+        }
+        #input-section{
+            margin:5%;
+         flex:1;
+         
+        }
+
+        #output-section{
+            margin:5%;
+           flex:1
+           
+        
+        }
+        #input-text{
+            height:300px;
+            width:85%;
+            margin-left: 25px;
+            padding: 20px;
+            font-size: 20px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        #translate-btn{
+          font-size: 20px;
+          padding:7px;
+          margin:20px 0 20px 200px;
+          width:150px;
+          background-color: #1565C0;
+          color: white;
+          border: 0;
+          cursor: pointer;
+          box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+        }
+        #select{
+          display: flex;
+          height: 50px;
+         margin-left: 300px;
+         border: none;
+          width:350px;
+        }
+        select{
+          width: 100px;
+          height: 40px;
+          margin: 10px;
+          border: none;
+          background-color: white;
+          font-size: 18px;
+          cursor: pointer;
+        }
+        #selectinto{
+          display: flex;
+          height: 50px;
+         margin-left: 30px;
+         border: none;
+          width:300px;
+        }
+        #translated-text{
+          font-size: 20px;
+          margin: 50px ;
+        }
+        #nav{
+         height: 80px;
+         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        padding-left:650px ;
+          font-size: 15px;
+          padding-top: 10px;
+          background-color: #1565C0;
+          color: white;
+        }
+    </style>
+  </head>
+
+  <style></style>
+
+  <body>
+    <div id="nav"><h1>TRANSLATION API</h1></div>
+    <div id="container">
+    
+      <div id="input-section">
+          
+        <!--Create button that will run translate text function(), give id "translate-btn"-->
+        <!--Create input that will accept text to be translated, give id "input-text"-->
+        
+        <div id="select">
+          <h3>Translate From:</h3>
+          <select name="" id="from">
+          
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="Te">Telugu</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="ja">Japanese</option>
+          <option value="ru">Russian</option>
+          <option value="uk">Ukranian</option>
+          <option value="es">Spanish</option>
+          <option value="it">Italian</option>
+        </select></div>
+        <hr>
+        <button onclick="translateText()" id="translate-btn">Translate</button>
+        <textarea name="" id="input-text" placeholder="Enter text here"></textarea>
+      </div>
+      <div id="output-section">
+        <div id="selectinto">
+          <h3>Translate To :</h3>
+          <select name="" id="to">
+          
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="Te">Telugu</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="ja">Japanese</option>
+          <option value="ru">Russian</option>
+          <option value="uk">Ukranian</option>
+          <option value="es">Spanish</option>
+          <option value="it">Italian</option>
+        </select></div>
+        <hr>
+        <p id="translated-text">
+          <!--Show translated text here-->
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  async function  translateText(){
+      try{
+    let input = document.getElementById("input-text").value;
+    let from=document.getElementById("from").value
+    let to=document.getElementById("to").value
+    
+let res= await fetch("https://libretranslate.de/translate", 
+{
+method:"POST",
+
+body:JSON.stringify({
+    q:input,
+    source:from,
+    target:to,
+    format:"text",
+}),
+
+headers: {
+   
+    "Content-Type": "application/json",
+},
+});
+let data=await res.json();
+if(data.translatedText){
+  document.getElementById("translated-text").innerText=data.translatedText;
+}
+
+
+  }
+  catch(err)
+  {
+      console.log("err:",err)
+  }
+}
+
+</script>
